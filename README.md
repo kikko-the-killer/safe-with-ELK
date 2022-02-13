@@ -40,20 +40,7 @@ Filebeat generally reads all the specified data line by line, and forwards it to
 Metricbeat uses modules and metricsets uses logical sets and operators to collect, fetchh and structure data from a specific service. Metricbeat takes the metrics and statistics that it collects and ships them to the output that you specify, such as Elasticsearch or Logstash. 
 
 
-- EXTRA: What other beats can be added to this setup and why?
- Packetbeat - that you can use with Elasticsearch to provide an application monitoring and performance analytics system
- Heartbeat - probe services to check if they are reachable or not � it's useful, for example, to verify that the service uptime complies with your SLA 
- Auditbeat - Auditbeat is a lightweight shipper that you can install on your servers to audit the activities of users and processes on your systems. For example, you can use Auditbeat to collect and centralize audit events from the Linux Audit Framework.
-
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator
-
-| Name     | Function | IP Address | Operating System |
-|----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
 
 
 | Name  | Function | IP Address | Operating System |
@@ -70,20 +57,14 @@ _Note: Use the [Markdown Table Generator
 The machines on the internal network are not exposed to the public Internet. 
 
 Only the Red-ELK-VM machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- The public IP address of admin machine -- 73.96.94.34
+- The public IP address of admin machine -- using TCP port 5601
 
 - _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
 
-Machines within the network can only be accessed by ssh through Jumbox and TCP through HTTP -- oirts 22 for ssh and 5601 for TCP.
+Alternate machines on the network can only be accessed through a Jump Box SHH on port 22, or through asdmin's machine with the specified IP via TCP port 5601. 
 
 
 A summary of the access policies in place can be found in the table below.
-
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 73.96.94.34|
-|          |                     |                      |
-|          |                     |                      |
 
 | Name                 | Publically Accessible | Allowed IP Addresses                             |
 |----------------------|-----------------------|--------------------------------------------------|
@@ -95,10 +76,7 @@ A summary of the access policies in place can be found in the table below.
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-What is the main advantage of automating configuration with Ansible?
-
-Each machine does not have to be manually configured, and an automated process can be created, which will configure a multiutude of machines to the same standard simultaneously. 
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because of efficiency that it is able to provide. Each machine does not have to be manually configured, and an automated process is programmed to address configuration on a multiutude of machines to the same standard simultaneously. 
 
 
 The playbook implements the following tasks:
@@ -108,7 +86,7 @@ The playbook implements the following tasks:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![TODO: Update the path with the name of your screenshot of docker ps output](images/docker_ps_output.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
@@ -118,29 +96,43 @@ This ELK server is configured to monitor the following machines:
 	- Web-3: 10.0.0.9
 
 We have installed the following Beats on these machines:
--Specify which Beats you successfully installed_
 	- Filebeat and MetricBeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
 
-    Filebeat: log events
-    Metricbeat: metrics and system statistics
+To better understand the monitoring performed on this network, there is a short explanation about the  kind of data each beat collects:_
+
+    Filebeat: ships  log and file information about events on the system or network
+    Metricbeat: ships data about metrics and system information from Operating Systems and services running on the server
+
+    Additionally, alternate beats can be added to this setup if this is necessary to meet specific business needs.
+ Packetbeat - which can be used with Elasticsearch to provide an application monitoring and performance analytics system
+ Heartbeat - probe services to check if they are reachable or not � it's useful, for example, to verify that the service uptime complies with your SLA 
+ Auditbeat - Auditbeat is a lightweight shipper that you can install on your servers to audit the activities of users and processes on your systems. For example, you can use Auditbeat to collect and centralize audit events from the Linux Audit Framework.
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
+
+For Filbeat:
+- Copy the /etc/ansible/files/filebeat-config.yml file to /etc/filebeat/filebeat-playbook.yml.
+- Update the filebeat-playbook.yml file to include curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.0.0-amd64.deb
 - Run the playbook, and navigate to ansible-playbook filebeat-playbook.yml to check that the installation worked as expected.
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?
+For Metricbeat:
+ Copy the /etc/ansible/files/metricbeat file to /etc/metricbeat/metricbeat-playbook.yml.
+- Update the filebeat-playbook.yml file to include curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-8.0.0-amd64.deb
+- Run the playbook, and navigate to ansible-playbook metricbeat-playbook.yml to check that the installation worked as expected.
+
 There are three playbooks -- one for ansible, one for filebeat and the other for metric beat. They are located in /etc/ansible directory. They are all .yml files
 - _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?
-You update the hosts file. You specify what you want installed on a specific machine by ..?
-- _Which URL do you navigate to in order to check that the ELK server is running?
-http:// [your.ELK-VM.External.IP]:5601/app/kibana
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+To make Ansible run the playbook on a specific machine, the ansible.config file, as well as the hosts file in the ansible directoty must be updated. The ansible.config file must be addited to include additional remote users, and the hosts file must be edited to include the IP addresses of webservers on which the playbook is meant to run.
+
+To specify what you want installed on a specific machine ,you can edit the filebeat.config and metricbeat.config files to specify which hosts the playbook would run on. 
+
+
+In order to check that the ELK server is running -- simply visit 
+http://168.61.34.42:5601/app/kibana  -- where the IP is the extranal IP address of the ELK Server VM
+
