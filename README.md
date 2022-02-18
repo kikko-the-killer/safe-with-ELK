@@ -4,11 +4,16 @@ The files in this repository were used to configure the network depicted below.
 
 ![](images/diagram.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the YAML (.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
   - [filebeat-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/filebeat-playbook.yml)
+    - [filebeat-configuration](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/filebeat-config.yml) 
   - [metricbeat-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/Metricbeat-Playbook.yml)
+    - [metricbeat-configuration] (https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/metricbeat-config.yml)
   - [ELK-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/install-elk.yml)
+     - [pentest-playbook] (https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/pentest-playbook.yml)
+  - [ansible-hosts-file](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/hosts.txt)
+  - [ansible-configuration](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/ansible.cfg.txt)
 
 This document contains the following details:
 - Description of the Topology
@@ -59,7 +64,7 @@ The machines on the internal network are not exposed to the public Internet.
 Only the Red-ELK-VM machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
 - The public IP address of admin machine -- using TCP port 5601
 
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+When setting up, access to the ELK VM is only allowed from the Jump Box Provisioner (10.0.0.5) via ssh on port 22, and via the web from admin IP(73.96.94.34) over TCP port 5601 
 
 Alternate machines on the network can only be accessed through a Jump Box SHH on port 22, or through asdmin's machine with the specified IP via TCP port 5601. 
 
@@ -80,17 +85,18 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+- set configurations for multiple VM's with docker
+- add memory to the system
+- pass the docker.io installation command
+- set ports, and open the docker container with the specified information
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](images/docker_ps_output.png)
+![](images/docker-screenshot.JPG)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- List the IP addresses of the machines you are monitoring_
+- List the IP addresses of the machines you are monitoring:
 	- Web-1: 10.0.0.10
 	- Web-2: 10.0.0.7
 	- Web-3: 10.0.0.9
