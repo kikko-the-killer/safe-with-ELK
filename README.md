@@ -9,9 +9,9 @@ These files have been tested and used to generate a live ELK deployment on Azure
   - [filebeat-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/filebeat-playbook.yml)
     - [filebeat-configuration](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/filebeat-config.yml) 
   - [metricbeat-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/Metricbeat-Playbook.yml)
-    - [metricbeat-configuration] (https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/metricbeat-config.yml)
+    - [metricbeat-configuration](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/metricbeat-config.yml)
   - [ELK-installation](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/install-elk.yml)
-     - [pentest-playbook] (https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/pentest-playbook.yml)
+     - [pentest-playbook](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/pentest-playbook.yml)
   - [ansible-hosts-file](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/hosts.txt)
   - [ansible-configuration](https://github.com/kikko-the-killer/safe-with-ELK/blob/main/ansible/ansible.cfg.txt)
 
